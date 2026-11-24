@@ -1,0 +1,9 @@
+import { createServerClient } from "@supabase/ssr"
+import { cookies } from "next/headers"
+import type { CookieOptions } from "@supabase/ssr"
+type CK = { name: string; value: string; options: CookieOptions }
+export async function sb() {
+  const c = await cookies()
+  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+    cookies: { getAll: () => c.getAll(), setAll: (l: CK[]) => { try { l.forEach(({ name, value, options }) => c.set(name, value, options)) } catch {} } } })
+}
