@@ -32,7 +32,6 @@ export default async function L({
 }) {
   const s = await sb()
 
-  // STEP 1: Check whether the server can read the logged-in user.
   const {
     data: { user },
     error: authError,
@@ -49,7 +48,6 @@ export default async function L({
           {JSON.stringify(
             {
               authError: authError?.message ?? "No user returned",
-              status: authError?.status ?? null,
             },
             null,
             2
@@ -62,7 +60,6 @@ export default async function L({
     )
   }
 
-  // STEP 2: Check whether the user's profile can be read.
   const {
     data: me,
     error: profileError,
@@ -95,7 +92,6 @@ export default async function L({
     )
   }
 
-  // STEP 3: Continue with the normal dashboard layout.
   if (me.role === "client") {
     redirect("/portal")
   }
